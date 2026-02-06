@@ -17,6 +17,9 @@ public class Weapon : MonoBehaviour
     private int currentAmmo;
     private bool isReloading = false;
 
+    [Header("Visual Effect")]
+    public GameObject bulletHolePrefab;
+
 
     public Camera fpsCam;
 
@@ -74,6 +77,12 @@ public class Weapon : MonoBehaviour
             if(damageable != null)
             {
                 damageable.TakeDamage(damage);
+            }
+            else
+            {
+                GameObject newHole =  Instantiate(bulletHolePrefab, hitInfo.point + hitInfo.normal * 0.01f, Quaternion.LookRotation(- hitInfo.normal));
+
+                Destroy(newHole, 5);
             }
         }
         Debug.Log("Ammo : " + currentAmmo);
