@@ -29,10 +29,11 @@ public class PlayerMovement : MonoBehaviour
     public bool isSprinting;
 
 
-    // Variabel kalkulasi fisika
-    private Vector3 velocity;      // Untuk gravitasi (Y axis)
-    private Vector3 finalVelocity; // Untuk gerak horizontal
-    private Vector3 momentum;      // "Ingatan" kecepatan saat terbang
+    
+    private Vector3 velocity;      
+    private Vector3 finalVelocity; 
+    private Vector3 momentum;
+    private Vector3 origin;
 
 
     private float originalHeight;
@@ -40,6 +41,7 @@ public class PlayerMovement : MonoBehaviour
     public float crouchHeight = 0.5f;
     public float crouchSpeed = 0f;
     public bool isCrouching = false;
+    public float rayLength;
 
 
     private void Start()
@@ -51,8 +53,8 @@ public class PlayerMovement : MonoBehaviour
 
     void Update()
     {
-        HandleGravity();
         HandleMovementAndStamina();
+        HandleGravity();
         HandleCrouch();
     }
 
@@ -60,26 +62,28 @@ public class PlayerMovement : MonoBehaviour
 
     void HandleGravity()
     {
-        // Cek apakah kaki menyentuh layer 'Ground'
-        isGrounded = Physics.CheckSphere(groundCheck.position, groundDistance, groundMask);
+        origin = controller.bounds.center;
+        rayLength = controller.bounds.extents.y + groundDistance;
 
-        // Reset velocity gravitasi saat menapak (diberi -2f agar tetap menempel kuat di tanah/turunan)
+        float radius = controller.bounds.extents.x;
+
+        //isGrounded = Physics.Raycast(origin, Vector3.down, rayLength, groundMask);
+
+        isGrounded = Physics.SphereCast(origin, radius, Vector3.down, out RaycastHit hit, rayLength, groundMask);
+
         if (isGrounded && velocity.y < 0)
         {
             velocity.y = -2f;
         }
 
-        // Akumulasi gravitasi (Jatuh)
         velocity.y += gravity * Time.deltaTime;
         controller.Move(velocity * Time.deltaTime);
     }
 
     void HandleMovementAndStamina()
     {
-        // Safety check: Pastikan keyboard terhubung
         if (Keyboard.current == null) return;
 
-        // 1. INPUT READING (Membaca tombol WASD)
         float x = 0;
         float z = 0;
 
@@ -88,14 +92,11 @@ public class PlayerMovement : MonoBehaviour
         if (Keyboard.current.sKey.isPressed) z = -1;
         if (Keyboard.current.wKey.isPressed) z = 1;
 
-        // 2. LOGIKA STATE & STAMINA (Dihitung di awal sebelum fisika)
         bool isMovingForward = z > 0;
         bool isShiftPressed = Keyboard.current.leftShiftKey.isPressed;
 
-        // Tentukan status Sprint frame ini
         isSprinting = isShiftPressed && isMovingForward && canRun && currentStamina > 0;
 
-        // Manajemen Pengurangan/Pemulihan Stamina
         if (isSprinting)
         {
             currentStamina -= drainRate * Time.deltaTime;
@@ -105,32 +106,25 @@ public class PlayerMovement : MonoBehaviour
             currentStamina += regenRate * Time.deltaTime;
         }
 
-        // Logic Fatigue: Jika capek (<30), tidak bisa lari sampai pulih
         if (!isSprinting)
         {
             if (currentStamina < fatigueThreshold) canRun = false;
             else canRun = true;
         }
 
-        // Kunci nilai stamina di antara 0 - 100
         currentStamina = Mathf.Clamp(currentStamina, 0, maxStamina);
 
-        // 3. KALKULASI FISIKA GERAK
         if (isGrounded)
         {
-            // A. Logika Lompat (Impuls instan)
             if (Keyboard.current.spaceKey.wasPressedThisFrame && !isCrouching)
             {
                 velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
             }
 
-            // B. Hitung Arah & Kecepatan
             Vector3 moveDirection = transform.right * x + transform.forward * z;
 
-            // Normalize agar gerak diagonal tidak lebih cepat
             if (moveDirection.magnitude > 1f) moveDirection.Normalize();
 
-            // Pilih speed berdasarkan status sprint yang sudah dihitung di atas
             float targetSpeed = isSprinting ? sprintSpeed : walkSpeed;
             if (isSprinting)
                 targetSpeed = sprintSpeed;
@@ -139,28 +133,20 @@ public class PlayerMovement : MonoBehaviour
             else 
                 targetSpeed = walkSpeed;
 
-            // Set output kecepatan
             finalVelocity = moveDirection * targetSpeed;
         }
         else
         {
-            // C. Logika Udara: Gunakan momentum terakhir, abaikan input baru
             finalVelocity = momentum;
         }
 
-        // 4. EKSEKUSI & PENYIMPANAN
         controller.Move(finalVelocity * Time.deltaTime);
 
-        // Simpan momentum hanya saat di tanah. 
-        // Y diset 0 agar momentum murni horizontal (mencegah loncat ganda tak sengaja)
         if (isGrounded)
         {
             momentum.Set(controller.velocity.x, 0, controller.velocity.z);
         }
     }
-
-
-
 
 
     void HandleCrouch()
@@ -169,7 +155,7 @@ public class PlayerMovement : MonoBehaviour
         {
             controller.height = crouchHeight;
 
-            playerTransform.localScale = new Vector3(1, 0.5f, 1);
+            //playerTransform.localScale = new Vector3(1, 0.5f, 1);
             controller.center = new Vector3(0, crouchHeight / 2f,0);
             canRun = false;
             isCrouching = true;
@@ -177,7 +163,7 @@ public class PlayerMovement : MonoBehaviour
         else
         {
             controller.height = originalHeight;
-            playerTransform.localScale = new Vector3(1, 1, 1);
+            //playerTransform.localScale = new Vector3(1, 1, 1);
             controller.center = new Vector3(originalCenter.x, originalCenter.y, originalCenter.z);
             canRun = true;
             isCrouching = false;

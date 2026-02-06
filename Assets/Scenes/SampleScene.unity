@@ -517,7 +517,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 52a9c22f5e0e2d84ca253744c3fa1640, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MouseLook
-  mouseSensitivity: 50
+  mouseSensitivity: 15
   sprintMultiplier: 0.2
   playerBody: {fileID: 462471281}
   playerMovement: {fileID: 0}
@@ -822,7 +822,7 @@ MonoBehaviour:
   sprintSpeed: 7
   jumpHeight: 1
   gravity: -9.81
-  groundDistance: 0.4
+  groundDistance: 0.01
   maxStamina: 50
   drainRate: 10
   regenRate: 10
@@ -834,6 +834,7 @@ MonoBehaviour:
   crouchHeight: 1
   crouchSpeed: 1.5
   isCrouching: 0
+  rayLength: 0
 --- !u!143 &462471278
 CharacterController:
   m_ObjectHideFlags: 0
