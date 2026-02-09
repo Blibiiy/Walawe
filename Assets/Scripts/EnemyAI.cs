@@ -20,7 +20,6 @@ public class EnemyAI : MonoBehaviour
         playerHealth = playerPosition.GetComponent<IDamageable>();
     }
 
-    // Update is called once per frame
     void Update()
     {
         float distanceToPlayer = Vector3.Distance(transform.position, playerPosition.position);

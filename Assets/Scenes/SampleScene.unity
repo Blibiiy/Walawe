@@ -864,6 +864,7 @@ GameObject:
   - component: {fileID: 462471278}
   - component: {fileID: 462471277}
   - component: {fileID: 462471282}
+  - component: {fileID: 462471283}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -1022,6 +1023,21 @@ MonoBehaviour:
   interactLayer:
     serializedVersion: 2
     m_Bits: 64
+--- !u!114 &462471283
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 462471276}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4fbb70ceb97563b4aaba0de8ba71d812, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerHealth
+  maxhealth: 100
+  currentHealth: 0
+  healthSlider: {fileID: 1346996019}
 --- !u!1 &551442470
 GameObject:
   m_ObjectHideFlags: 0
@@ -1608,7 +1624,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1346996018}
   - component: {fileID: 1346996019}
-  - component: {fileID: 1346996020}
   m_Layer: 5
   m_Name: HealthBar
   m_TagString: Untagged
@@ -1688,21 +1703,6 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
---- !u!114 &1346996020
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1346996017}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4fbb70ceb97563b4aaba0de8ba71d812, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::PlayerHealth
-  maxhealth: 100
-  currentHealth: 0
-  healthSlider: {fileID: 1346996019}
 --- !u!1 &1350379137
 GameObject:
   m_ObjectHideFlags: 0
