@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class PlayerHealth : MonoBehaviour, IDamageable
 {
@@ -9,6 +10,10 @@ public class PlayerHealth : MonoBehaviour, IDamageable
 
     [Header("UI Reference")]
     public Slider healthSlider;
+
+    [Header("Game Over Reference")]
+    public GameObject gameOverPanel;
+
 
     private void Start()
     {
@@ -36,8 +41,28 @@ public class PlayerHealth : MonoBehaviour, IDamageable
 
     void Die()
     {
-        Debug.Log("GAME OVER");
+        Debug.Log("Game Over");
 
+        if(gameOverPanel != null)
+        {
+            gameOverPanel.SetActive(true);
+        }
+
+        // matikan skrip controller player
+        GetComponent<PlayerMovement>().enabled = false; 
+
+
+        // kembalikan cursor seperti semula
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
+
+        // hentikan game
         Time.timeScale = 0;
+    }
+
+    public void RestartGame()
+    {
+        Time.timeScale = 1;
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 }

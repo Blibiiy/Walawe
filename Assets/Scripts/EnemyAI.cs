@@ -23,11 +23,14 @@ public class EnemyAI : MonoBehaviour
     void Update()
     {
         float distanceToPlayer = Vector3.Distance(transform.position, playerPosition.position);
+        if (attackTimer > -1f )
+        {
+            attackTimer -= Time.deltaTime;
+        }
         if (distanceToPlayer <= attackRange)
         {
             agent.isStopped = true;
 
-            attackTimer -= Time.deltaTime;
 
             if(attackTimer < 0f)
             {
