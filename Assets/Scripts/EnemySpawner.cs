@@ -8,7 +8,7 @@ public class EnemySpawner : MonoBehaviour
     public Transform[] spawnPoints;
 
     public float spawnInterval = 3f;
-    public int maxEnemies = 5;
+    public int maxEnemies = 2;
     void Start()
     {
         StartCoroutine(SpawnRoutine());

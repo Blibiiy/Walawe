@@ -79,10 +79,13 @@ public class Weapon : MonoBehaviour
 
         if (Physics.Raycast(ray, out hitInfo, range))
         {
-            Debug.Log(hitInfo.transform.name);
             IDamageable damageable = hitInfo.collider.gameObject.GetComponent<IDamageable>();
             if(damageable != null)
             {
+                if(hitInfo.collider.CompareTag("Enemyhead"))
+                {
+
+                }
                 damageable.TakeDamage(damage);
             }
             else
