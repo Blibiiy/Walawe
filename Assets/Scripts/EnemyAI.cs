@@ -49,7 +49,8 @@ public class EnemyAI : MonoBehaviour
     {
         if(playerHealth != null)
         {
-            playerHealth.TakeDamage(damage);
+            DamageInfo info = new DamageInfo(damage);
+            playerHealth.TakeDamage(info);
         }
     }
 }

@@ -26,9 +26,9 @@ public class PlayerHealth : MonoBehaviour, IDamageable
         }
     }
 
-    public void TakeDamage(float damage)
+    public void TakeDamage(DamageInfo info)
     {
-        currentHealth -= damage;
+        currentHealth -= info.BaseDamage;
 
         if (healthSlider != null)
             healthSlider.value = currentHealth;

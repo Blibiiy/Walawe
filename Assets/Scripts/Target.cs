@@ -2,19 +2,22 @@ using UnityEngine;
 
 public class Target : MonoBehaviour, IDamageable
 {
-    private float health = 50f;
-    private int headShotPoints = 100;
-    private int KillPoints = 50;
-    public void TakeDamage(float amount, bool isHeadShot)
+    public float health = 50f;
+    public int headShotPoints = 100;
+    public int KillPoints = 50;
+    public void TakeDamage(DamageInfo info)
     {
+        float finalDamage = info.BaseDamage;
+        if(info.Hitzone == HitZone.head)
+        {
+            finalDamage *= 2;
+        }
 
-        health -= amount;
-        
+        health -= finalDamage;
+
         Debug.Log("health : " + health);
         if (health <= 0)
         {
-            int point = isHeadShot ? headShotPoints : KillPoints;
-            PointManager.instance.AddPoints(point);
             Destroy(gameObject);
         }
     }

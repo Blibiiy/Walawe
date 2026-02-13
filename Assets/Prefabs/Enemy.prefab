@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: 7505645747117152701}
   - component: {fileID: 2159200905062016980}
   - component: {fileID: 1284027130641210071}
+  - component: {fileID: 3613836942837288067}
   m_Layer: 0
   m_Name: Enemy
   m_TagString: Enemy
@@ -107,6 +108,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 79c388e5984b7ea4ca879cbaa4b33fe5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Target
+  health: 60
+  headShotPoints: 100
+  KillPoints: 50
 --- !u!195 &178935492318596563
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -194,3 +198,24 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!135 &3613836942837288067
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8620954194655754888}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 256
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Radius: 0.28
+  m_Center: {x: 0, y: 0.73, z: 0}

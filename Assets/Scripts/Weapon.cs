@@ -10,7 +10,8 @@ public class Weapon : MonoBehaviour
 
 
     [Header("Gun Stats")]
-    public float damage = 10f;
+    public float normalDamage = 10f;
+    public float headDamage = 20f;
     public float range = 100f;
     public int maxAmmo = 10;
     public int reserveAmmo = 30;
@@ -76,17 +77,24 @@ public class Weapon : MonoBehaviour
         currentAmmo--;
         Ray ray = fpsCam.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));
         RaycastHit hitInfo;
+        float damage = normalDamage;
 
         if (Physics.Raycast(ray, out hitInfo, range))
         {
             IDamageable damageable = hitInfo.collider.gameObject.GetComponent<IDamageable>();
             if(damageable != null)
             {
-                if(hitInfo.collider.CompareTag("Enemyhead"))
+                HitZone zone = HitZone.Body;
+                int layer = hitInfo.collider.gameObject.layer;
+                if (layer == LayerMask.NameToLayer("Enemy Head"))
                 {
-
+                    damage = headDamage;
+                    zone = HitZone.head;
                 }
-                damageable.TakeDamage(damage);
+                DamageInfo info = new DamageInfo(damage, zone);
+
+                damageable.TakeDamage(info);
+                
             }
             else
             {
