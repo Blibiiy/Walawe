@@ -1,5 +1,5 @@
 public enum HitZone
 {
     Body,
-    head
+    Head
 }

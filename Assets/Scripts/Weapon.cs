@@ -22,6 +22,10 @@ public class Weapon : MonoBehaviour
     [Header("Visual Effect")]
     public GameObject bulletHolePrefab;
 
+    [Header("Audio")]
+    public AudioSource audiosource;
+    public AudioClip gunshotClip;
+
 
     public Camera fpsCam;
 
@@ -77,33 +81,23 @@ public class Weapon : MonoBehaviour
         currentAmmo--;
         Ray ray = fpsCam.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));
         RaycastHit hitInfo;
-        float damage = normalDamage;
+        audiosource.PlayOneShot(gunshotClip);
 
         if (Physics.Raycast(ray, out hitInfo, range))
         {
-            IDamageable damageable = hitInfo.collider.gameObject.GetComponent<IDamageable>();
-            if(damageable != null)
+            IDamageable damageable = hitInfo.collider.gameObject.GetComponentInParent<IDamageable>();
+            HitZoneIdentifier zone = hitInfo.collider.GetComponentInParent<HitZoneIdentifier>();
+            if(damageable != null && zone != null)
             {
-                HitZone zone = HitZone.Body;
-                int layer = hitInfo.collider.gameObject.layer;
-                if (layer == LayerMask.NameToLayer("Enemy Head"))
-                {
-                    damage = headDamage;
-                    zone = HitZone.head;
-                }
-                DamageInfo info = new DamageInfo(damage, zone);
-
+                DamageInfo info = new DamageInfo(normalDamage, zone.hitzone);
                 damageable.TakeDamage(info);
-                
             }
             else
             {
                 GameObject newHole =  Instantiate(bulletHolePrefab, hitInfo.point + hitInfo.normal * 0.01f, Quaternion.LookRotation(- hitInfo.normal));
-
                 Destroy(newHole, 5);
             }
         }
-        Debug.Log("Ammo : " + currentAmmo);
         UpdateAmmoUI();
     }
 

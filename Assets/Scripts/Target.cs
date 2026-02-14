@@ -8,7 +8,7 @@ public class Target : MonoBehaviour, IDamageable
     public void TakeDamage(DamageInfo info)
     {
         float finalDamage = info.BaseDamage;
-        if(info.Hitzone == HitZone.head)
+        if(info.Hitzone == HitZone.Head)
         {
             finalDamage *= 2;
         }
