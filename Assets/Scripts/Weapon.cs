@@ -24,7 +24,9 @@ public class Weapon : MonoBehaviour
 
     [Header("Audio")]
     public AudioSource audiosource;
-    public AudioClip gunshotClip;
+    public AudioClip gunshotSound;
+    public AudioClip gunreloadSound;
+    public AudioClip killEnemy;
 
 
     public Camera fpsCam;
@@ -43,6 +45,7 @@ public class Weapon : MonoBehaviour
         if (reserveAmmo > 0 && (Keyboard.current.rKey.wasPressedThisFrame && currentAmmo < maxAmmo) || currentAmmo <= 0)
         {
             StartCoroutine(Reload());
+            audiosource.PlayOneShot(gunreloadSound);
             return;
         }
 
@@ -81,16 +84,24 @@ public class Weapon : MonoBehaviour
         currentAmmo--;
         Ray ray = fpsCam.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));
         RaycastHit hitInfo;
-        audiosource.PlayOneShot(gunshotClip);
+        audiosource.PlayOneShot(gunshotSound);
 
         if (Physics.Raycast(ray, out hitInfo, range))
         {
+
             IDamageable damageable = hitInfo.collider.gameObject.GetComponentInParent<IDamageable>();
             HitZoneIdentifier zone = hitInfo.collider.GetComponentInParent<HitZoneIdentifier>();
+            Target target = hitInfo.collider.GetComponentInParent<Target>();
+
             if(damageable != null && zone != null)
             {
                 DamageInfo info = new DamageInfo(normalDamage, zone.hitzone);
                 damageable.TakeDamage(info);
+                if(target != null)
+                {
+                    if (target.IsDeath())
+                        audiosource.PlayOneShot(killEnemy);
+                }
             }
             else
             {
