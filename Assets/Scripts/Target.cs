@@ -26,7 +26,10 @@ public class Target : MonoBehaviour, IDamageable
     public bool IsDeath()
     {
         if (health <= 0)
+        {
+            PointManager.instance.AddPoints(KillPoints);
             return true;
+        }
 
         return false;
     }

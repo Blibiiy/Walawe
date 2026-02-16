@@ -12,7 +12,6 @@ public class EnemyAI : MonoBehaviour
 
     private float attackTimer = 0f;
     [SerializeField] private IDamageable playerHealth;
-
     void Start()
     {
         agent = GetComponent<NavMeshAgent>();

@@ -100,7 +100,9 @@ public class Weapon : MonoBehaviour
                 if(target != null)
                 {
                     if (target.IsDeath())
+                    {
                         audiosource.PlayOneShot(killEnemy);
+                    }
                 }
             }
             else

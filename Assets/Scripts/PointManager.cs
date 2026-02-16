@@ -1,3 +1,4 @@
+using TMPro;
 using UnityEngine;
 
 public class PointManager : MonoBehaviour
@@ -5,6 +6,8 @@ public class PointManager : MonoBehaviour
     public static PointManager instance { get; private set; }
 
     public int currentPoints = 500;
+
+    public TextMeshProUGUI pointText;
 
     private void Awake()
     {
@@ -21,5 +24,11 @@ public class PointManager : MonoBehaviour
     public void AddPoints(int amount)
     {
         currentPoints += amount;
+        UpdatePointScore();
+    }
+
+    public void UpdatePointScore()
+    {
+        pointText.text = currentPoints.ToString();
     }
 }
