@@ -27,6 +27,11 @@ public class PointManager : MonoBehaviour
         UpdatePointScore();
     }
 
+    public void ReducePoints (int amount)
+    {
+        currentPoints -= amount; UpdatePointScore();
+    }
+
     public void UpdatePointScore()
     {
         pointText.text = currentPoints.ToString();

@@ -66,6 +66,7 @@
     <Compile Include="Assets\Scripts\Target.cs" />
     <Compile Include="Assets\Scripts\PlayerHealth.cs" />
     <Compile Include="Assets\Scripts\HitZoneIdentifier.cs" />
+    <Compile Include="Assets\Scripts\WallGun.cs" />
     <Compile Include="Assets\Scripts\IInteractable.cs" />
     <Compile Include="Assets\TutorialInfo\Scripts\Readme.cs" />
     <Compile Include="Assets\Scripts\PointManager.cs" />
@@ -74,7 +75,6 @@
     <Compile Include="Assets\Scripts\playerInteract.cs" />
     <Compile Include="Assets\Scripts\EnemySpawner.cs" />
     <Compile Include="Assets\Scripts\Door.cs" />
-    <Compile Include="Assets\Scripts\AmmoBox.cs" />
     <Compile Include="Assets\Scripts\HitZone.cs" />
     <Compile Include="Assets\Scripts\Weapon.cs" />
     <Compile Include="Assets\Scripts\DamageInfo.cs" />

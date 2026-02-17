@@ -1,6 +1,9 @@
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using UnityEngine.Rendering;
+using UnityEngine.Rendering.Universal;
+using Unity.VisualScripting;
 
 public class PlayerHealth : MonoBehaviour, IDamageable
 {
@@ -14,9 +17,31 @@ public class PlayerHealth : MonoBehaviour, IDamageable
     [Header("Game Over Reference")]
     public GameObject gameOverPanel;
 
+    public Volume globalVolume;
+    private Vignette _vignette;
+
 
     private void Start()
     {
+        // 1. metode try get, menggunakan out
+        if (globalVolume.profile.TryGet<Vignette>(out _vignette))
+        {
+            _vignette.active = true;
+        }
+
+        // 2. metode biasanya yang nek tahu
+        //_vignette = globalVolume.profile.GetComponent<Vignette>();
+        //if(_vignette != null )
+        //{
+        //    _vignette.active = true;
+        //}
+
+        // kesimpulan, kode berjalan seperti biasa, tapi seperti yang dilihat, penggunaan tryget membuat kode yang lebih efisien dan rapi.
+
+
+
+
+
         currentHealth = maxhealth;
 
         if (healthSlider != null)
@@ -64,5 +89,10 @@ public class PlayerHealth : MonoBehaviour, IDamageable
     {
         Time.timeScale = 1;
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    }
+
+    void UpdateDamgeEffect()
+    {
+        // TODO : add UI logic based on player's health
     }
 }

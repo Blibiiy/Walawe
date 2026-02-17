@@ -246,8 +246,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Target
   health: 60
-  headShotPoints: 100
-  KillPoints: 50
+  normalKillPoints: 50
+  perHitPoints: 10
+  headshotkillPoints: 100
+  isHeadshot: 0
 --- !u!195 &178935492318596563
 NavMeshAgent:
   m_ObjectHideFlags: 0
