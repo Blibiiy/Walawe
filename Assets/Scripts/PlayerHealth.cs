@@ -4,6 +4,7 @@ using UnityEngine.SceneManagement;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
 using Unity.VisualScripting;
+using UnityEngine.Audio;
 
 public class PlayerHealth : MonoBehaviour, IDamageable
 {
@@ -11,14 +12,16 @@ public class PlayerHealth : MonoBehaviour, IDamageable
     public float maxhealth = 100f;
     public float currentHealth;
 
-    [Header("UI Reference")]
-    public Slider healthSlider;
 
     [Header("Game Over Reference")]
     public GameObject gameOverPanel;
 
+
+    [Header("health Interface")]
     public Volume globalVolume;
     private Vignette _vignette;
+    public Slider healthSlider;
+    [SerializeField] private AudioMixer masterMixer;
 
 
     private void Start()
@@ -53,12 +56,18 @@ public class PlayerHealth : MonoBehaviour, IDamageable
 
     public void TakeDamage(DamageInfo info)
     {
-        currentHealth -= info.BaseDamage;
+        currentHealth = Mathf.Clamp(currentHealth - info.BaseDamage, 0, maxhealth);
 
-        if (healthSlider != null)
+        if (healthSlider != null && masterMixer != null)
+        {
             healthSlider.value = currentHealth;
+            UpdateDamageEffect();
+        }
 
-        if (currentHealth < 0)
+        float healthPercent = currentHealth / maxhealth;
+        SetMuffledEffect(healthPercent);
+
+        if (currentHealth <= 0)
         {
             Die();
         }
@@ -91,8 +100,22 @@ public class PlayerHealth : MonoBehaviour, IDamageable
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
-    void UpdateDamgeEffect()
+    void UpdateDamageEffect()
     {
-        // TODO : add UI logic based on player's health
+        float healthPercent = currentHealth / maxhealth;
+
+        float intensity = 1f - healthPercent;
+
+        Debug.Log(healthPercent + " " + intensity);
+
+        _vignette.intensity.value = Mathf.Clamp(intensity * 0.5f, 0, 0.5f);
+
+    }
+
+    public void SetMuffledEffect(float healthPercent)
+    {
+        float frequency = Mathf.Lerp(10, 22000f, healthPercent);
+
+        masterMixer.SetFloat("MyLowPass", frequency);
     }
 }

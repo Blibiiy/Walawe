@@ -9,15 +9,17 @@ public class EnemySpawner : MonoBehaviour
 
     public float spawnInterval = 3f;
     public int maxEnemies = 2;
-    void Start()
+    [SerializeField] private bool enableSpawn = true;
+
+    private void Update()
     {
-        StartCoroutine(SpawnRoutine());
+        if (enableSpawn)
+            StartCoroutine(SpawnRoutine());
     }
 
     IEnumerator SpawnRoutine()
     {
-        while (true)
-        {
+
             int currentEnemyCount = GameObject.FindGameObjectsWithTag("Enemy").Length;
 
             if (currentEnemyCount < maxEnemies)
@@ -26,7 +28,6 @@ public class EnemySpawner : MonoBehaviour
             }
 
             yield return new WaitForSeconds(spawnInterval);
-        }
     }
 
 

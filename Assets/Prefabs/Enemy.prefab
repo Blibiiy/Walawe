@@ -285,7 +285,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyAI
   attackRange: 2.02
-  damage: 50
+  damage: 30
   timeBetweenAttacks: 1
 --- !u!54 &1284027130641210071
 Rigidbody:
@@ -323,7 +323,7 @@ AudioSource:
   m_GameObject: {fileID: 8620954194655754888}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: 24300002, guid: 5a82d840135b51a4a87162e534d31555, type: 2}
   m_audioClip: {fileID: 0}
   m_Resource: {fileID: 8300000, guid: 97a222a6c66b591429885ff961c272d8, type: 3}
   m_PlayOnAwake: 1
