@@ -94,24 +94,6 @@ public class PlayerHealth : MonoBehaviour, IDamageable
             }
         }
 
-        if (currentHealth >= maxhealth)
-            canRegen = false;
-
-
-        //if (debugElapsed < debugDuration)
-        //{
-        //    debugElapsed += Time.deltaTime;
-        //    float t = debugElapsed / debugDuration;
-        //    debugSlider.value = Mathf.Lerp(startValue, targetValue + hpRegen, t);
-        //    UpdateDamageEffect();
-        //}
-
-        //if (canDebug)
-        //{
-        //    debugElapsed = 0;
-        //    canDebug = false;
-        //}
-
     }
 
     public void TakeDamage(DamageInfo info)
@@ -142,8 +124,6 @@ public class PlayerHealth : MonoBehaviour, IDamageable
 
     void Die()
     {
-        Debug.Log("Game Over");
-
         if(gameOverPanel != null)
         {
             gameOverPanel.SetActive(true);
@@ -151,6 +131,7 @@ public class PlayerHealth : MonoBehaviour, IDamageable
 
         // matikan skrip controller player
         GetComponent<PlayerMovement>().enabled = false; 
+        GetComponent<Weapon>().enabled = false;
 
 
         // kembalikan cursor seperti semula

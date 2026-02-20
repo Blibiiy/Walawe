@@ -1,5 +1,7 @@
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -29,6 +31,9 @@ public class PlayerMovement : MonoBehaviour
     public bool isSprinting;
 
 
+    public GameObject gamePausePanel;
+
+
     
     private Vector3 velocity;      
     private Vector3 finalVelocity; 
@@ -56,6 +61,8 @@ public class PlayerMovement : MonoBehaviour
         HandleMovementAndStamina();
         HandleGravity();
         HandleCrouch();
+        HandleGamePause();
+        SlowTime();
     }
 
     // --- FUNGSI MODULAR ---
@@ -168,5 +175,57 @@ public class PlayerMovement : MonoBehaviour
             canRun = true;
             isCrouching = false;
         }
+    }
+
+
+    void HandleGamePause()
+    {
+        if (Keyboard.current.escapeKey.wasPressedThisFrame && Time.timeScale == 1)
+        {
+            PauseGame();
+        }
+
+        else if (Keyboard.current.escapeKey.wasPressedThisFrame && Time.timeScale == 0)
+        {
+            ResumeGame();
+        }
+    }
+
+    private void PauseGame()
+    {
+        gamePausePanel.SetActive(true);
+        Time.timeScale = 0;
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
+        GetComponentInChildren<Weapon>().enabled = false;
+    }
+
+    void SlowTime()
+    {
+        if (Mouse.current.rightButton.wasPressedThisFrame && Time.timeScale == 1f)
+            Time.timeScale = 0.5f;
+        else if (Mouse.current.rightButton.wasPressedThisFrame && Time.timeScale == 0.5f)
+            Time.timeScale = 1;
+    }
+
+
+    public void RestartGame()
+    {
+        Time.timeScale = 1;
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    }
+
+    public void ResumeGame()
+    {
+        gamePausePanel.SetActive(false);
+        Time.timeScale = 1;
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
+        GetComponentInChildren<Weapon>().enabled = true;
+    }
+
+    public void ExitGame()
+    {
+        EditorApplication.isPlaying = false;
     }
 }
