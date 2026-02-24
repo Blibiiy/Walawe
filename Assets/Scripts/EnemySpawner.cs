@@ -10,24 +10,22 @@ public class EnemySpawner : MonoBehaviour
     public float spawnInterval = 3f;
     public int maxEnemies = 2;
     [SerializeField] private bool enableSpawn = true;
-
-    private void Update()
-    {
-        if (enableSpawn)
-            StartCoroutine(SpawnRoutine());
-    }
-
-    IEnumerator SpawnRoutine()
+    public int spawnedEnemy;
+    public bool isSpawning;
+    public IEnumerator SpawnRoutine()
     {
 
             int currentEnemyCount = GameObject.FindGameObjectsWithTag("Enemy").Length;
 
-            if (currentEnemyCount < maxEnemies)
-            {
-                SpawnEnemy();
-            }
+            SpawnEnemy();
+
+            isSpawning = true;
+
+            spawnedEnemy++;
 
             yield return new WaitForSeconds(spawnInterval);
+
+            isSpawning = false;
     }
 
 

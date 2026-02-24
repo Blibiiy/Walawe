@@ -67,6 +67,7 @@
     <Compile Include="Assets\Scripts\PlayerHealth.cs" />
     <Compile Include="Assets\Scripts\HitZoneIdentifier.cs" />
     <Compile Include="Assets\Scripts\WallGun.cs" />
+    <Compile Include="Assets\Scripts\RoundManager.cs" />
     <Compile Include="Assets\Scripts\IInteractable.cs" />
     <Compile Include="Assets\TutorialInfo\Scripts\Readme.cs" />
     <Compile Include="Assets\Scripts\PointManager.cs" />
