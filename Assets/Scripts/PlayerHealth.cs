@@ -131,7 +131,7 @@ public class PlayerHealth : MonoBehaviour, IDamageable
 
         // matikan skrip controller player
         GetComponent<PlayerMovement>().enabled = false; 
-        GetComponent<Weapon>().enabled = false;
+        GetComponentInChildren<Weapon>().enabled = false;
 
 
         // kembalikan cursor seperti semula

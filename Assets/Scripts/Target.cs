@@ -35,6 +35,7 @@ public class Target : MonoBehaviour, IDamageable
         {
             int finalPoints = isHeadshot ? headshotkillPoints : normalKillPoints;
             PointManager.instance.AddPoints(finalPoints);
+            PointManager.instance.enemyKilled++;
             return true;
         }
 

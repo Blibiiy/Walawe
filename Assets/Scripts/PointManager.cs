@@ -7,6 +7,8 @@ public class PointManager : MonoBehaviour
 
     public int currentPoints = 500;
 
+    public int enemyKilled = 0;
+
     public TextMeshProUGUI pointText;
 
     private void Awake()

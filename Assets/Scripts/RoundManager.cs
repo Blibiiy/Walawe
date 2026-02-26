@@ -6,6 +6,7 @@ public class RoundManager : MonoBehaviour
     public int round = 1;
     public TextMeshProUGUI roundText;
     public EnemySpawner EnemySpawner;
+    public GameObject victoryPanel;
 
     private void Start()
     {
@@ -16,20 +17,37 @@ public class RoundManager : MonoBehaviour
     {
         if(EnemySpawner != null)
         {
-            if (EnemySpawner.spawnedEnemy <= EnemySpawner.maxEnemies && !EnemySpawner.isSpawning)
+            if (EnemySpawner.spawnedEnemy < EnemySpawner.maxEnemies && !EnemySpawner.isSpawning)
                 StartCoroutine(EnemySpawner.SpawnRoutine());
 
-            if (EnemySpawner.spawnedEnemy == 0)
+            if (PointManager.instance.enemyKilled == EnemySpawner.maxEnemies)
             {
-                AddRound();
+                if (round < 5)
+                    AddRound();
+                else
+                    youWin();
+
             }
         }
     }
 
     public void AddRound()
     {
-        roundText.text = "Round " + round;
-        EnemySpawner.maxEnemies++;
+        round++;
+        if (round < 5)
+            roundText.text = "Round " + round;
+        else
+            roundText.text = "Final Round";
+        EnemySpawner.maxEnemies += 2;
         EnemySpawner.spawnedEnemy = 0;
+        PointManager.instance.enemyKilled = 0;
+    }
+
+    public void youWin()
+    {
+        victoryPanel.SetActive(true);
+        Time.timeScale = 0;
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
     }
 }
