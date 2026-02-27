@@ -7,6 +7,7 @@ public class RoundManager : MonoBehaviour
     public TextMeshProUGUI roundText;
     public EnemySpawner EnemySpawner;
     public GameObject victoryPanel;
+    public TextMeshProUGUI totalScoreText;
 
     private void Start()
     {
@@ -46,6 +47,7 @@ public class RoundManager : MonoBehaviour
     public void youWin()
     {
         victoryPanel.SetActive(true);
+        totalScoreText.text = "Total Score :  " + PointManager.instance.currentPoints;
         Time.timeScale = 0;
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;

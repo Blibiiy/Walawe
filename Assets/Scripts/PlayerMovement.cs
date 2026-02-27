@@ -226,6 +226,6 @@ public class PlayerMovement : MonoBehaviour
 
     public void ExitGame()
     {
-        EditorApplication.isPlaying = false;
+        Application.Quit();
     }
 }
